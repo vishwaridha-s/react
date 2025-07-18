@@ -1,49 +1,77 @@
 import { useState } from "react";
 import axios from "axios";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  async function handleLogin(event){
+
+  async function handleLogin(event) {
     event.preventDefault();
-    try{
-        const token = await axios.post("http://localhost:3001/api/auth/login",{userName,password})
-        console.log(token);
-        alert("Login Successful")
-    } catch (e){
-        console.log("Login Error", e);
-        alert("Invalid Cred")
+    try {
+      const token = await axios.post("https://employeemanagement-uo32.onrender.com/api/auth/login", {
+        userName,
+        password,
+      });
+
+      localStorage.setItem("token", token.data.token);
+      alert("Login Successful");
+      setUserName("");
+      setPassword("");
+      onLogin();
+    } catch (e) {
+      console.error("Login Error", e);
+      alert("Invalid Credentials");
     }
-    console.log("Form Submitted");
   }
+
   return (
-    <div>
-      <h2>Login</h2>
-      <div>
-        <form onSubmit={handleLogin}>
-          <label htmlFor="userName">User Name</label>
-          <input
-            id="userName"
-            name="userName"
-            value={userName}
-            type="text"
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          <br /> <br />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            value={password}
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <br />
-          <br />
-          <button type="submit">Login</button>
-        </form>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6 col-lg-5">
+          <div className="card shadow-sm bg-light text-dark">
+            <div className="card-body">
+              <h3 className="text-center mb-4">Login</h3>
+              <form onSubmit={handleLogin}>
+                <div className="mb-3">
+                  <label htmlFor="userName" className="form-label">
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border-dark"
+                    id="userName"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control border-dark"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="d-grid mt-4">
+                  <button type="submit" className="btn btn-primary">
+                    Login
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
+
 export default Login;
