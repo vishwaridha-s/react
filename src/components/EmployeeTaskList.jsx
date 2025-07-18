@@ -10,7 +10,7 @@ const EmployeeTaskList = () => {
     fetchEmployeeWithTasks();
   }, []);
 
-  const fetchEmployeeWithTasks = async () => {                                                     "RollNo : 23AD085" 
+  const fetchEmployeeWithTasks = async () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(`https://employeemanagement-uo32.onrender.com/employee/${id}`, {

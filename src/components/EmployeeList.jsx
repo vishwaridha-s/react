@@ -28,7 +28,7 @@ const EmployeeList = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");                                             "RollNo : 23EC148" 
+    const token = localStorage.getItem("token");
     if (!searchTerm.trim()) {
       fetchEmployees();
       return;
